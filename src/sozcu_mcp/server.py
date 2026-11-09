@@ -30,7 +30,7 @@ is no server-side search to call) plus the homepage headlines. The
 site has no "most read" section (both candidate URLs are 404), so the
 market ticker from the page header is offered instead. Read-only;
 transport uses Chrome TLS impersonation; requests are spaced ~0.8s
-apart. Built by Mohammad Abbasi (mohammad-abbasi-sh) — Turkey MCP
+apart. Built by Mohammad Abbasi (mohammad-abbasi-sh) — https://almanibama.ir · https://mabbasi.ir — Turkey MCP
 factory.\
 """
 
