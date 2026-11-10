@@ -15,7 +15,7 @@ MCP istemci yapılandırmanıza ekleyin (stdio):
   "mcpServers": {
     "sozcu": {
       "command": "uvx",
-      "args": ["sozcu-mcp==0.1.0"]
+      "args": ["sozcu-mcp==0.1.1"]
     }
   }
 }
@@ -40,9 +40,9 @@ sozcu.com.tr ana sayfasını, kategori sayfalarını (`/<kategori>/`), haber say
 ## Kurulum
 
 ```bash
-uvx sozcu-mcp==0.1.0        # doğrudan çalıştır (uv gerekir)
+uvx sozcu-mcp==0.1.1        # doğrudan çalıştır (uv gerekir)
 # veya
-pip install sozcu-mcp==0.1.0
+pip install sozcu-mcp==0.1.1
 sozcu-mcp    # MCP sunucusunu stdio üzerinde başlatır
 ```
 
