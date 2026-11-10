@@ -15,7 +15,7 @@ mcp-name: io.github.mohammad-abbasi-sh/sozcu-mcp
   "mcpServers": {
     "sozcu": {
       "command": "uvx",
-      "args": ["sozcu-mcp==0.1.0"]
+      "args": ["sozcu-mcp==0.1.1"]
     }
   }
 }
@@ -26,9 +26,9 @@ mcp-name: io.github.mohammad-abbasi-sh/sozcu-mcp
 ## نصب
 
 ```bash
-uvx sozcu-mcp==0.1.0        # اجرای مستقیم (نیازمند uv)
+uvx sozcu-mcp==0.1.1        # اجرای مستقیم (نیازمند uv)
 # یا
-pip install sozcu-mcp==0.1.0
+pip install sozcu-mcp==0.1.1
 sozcu-mcp    # سرور MCP را روی stdio راه می‌اندازد
 ```
 
