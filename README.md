@@ -15,7 +15,7 @@ Add to your MCP client config (stdio):
   "mcpServers": {
     "sozcu": {
       "command": "uvx",
-      "args": ["sozcu-mcp"]
+      "args": ["sozcu-mcp==0.1.0"]
     }
   }
 }
@@ -56,9 +56,9 @@ sozcu.com.tr serves its homepage, category pages (`/<category>/`), article pages
 ## Install
 
 ```bash
-uvx sozcu-mcp        # run directly (needs uv)
+uvx sozcu-mcp==0.1.0        # run directly (needs uv)
 # or
-pip install sozcu-mcp
+pip install sozcu-mcp==0.1.0
 sozcu-mcp    # starts the MCP server on stdio
 ```
 
