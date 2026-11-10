@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -34,11 +35,27 @@ apart. Built by Mohammad Abbasi (mohammad-abbasi-sh) — https://almanibama.ir �
 factory.\
 """
 
+
+_SOURCE = "sozcu.com.tr"
+_DISCLAIMER = "Unofficial read-only data from sozcu.com.tr; verify on the site before acting on it."
+
+
+def _envelope() -> dict:
+    return {
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "source": _SOURCE,
+        "disclaimer": _DISCLAIMER,
+    }
+
+
+def _ok(payload: dict) -> str:
+    return json.dumps({**_envelope(), **payload}, ensure_ascii=False)
+
 _TODAY = ZoneInfo("Europe/Istanbul")
 
 
 def _err(e: Exception) -> str:
-    return json.dumps({"error": str(e)}, ensure_ascii=False)
+    return _ok({"error": str(e)})
 
 
 def _validate_limit(limit: int, lo: int = 1, hi: int = 30) -> int:
@@ -77,14 +94,11 @@ def sozcu_headlines(category: str = "gundem", limit: int = 10) -> str:
         rows = _N.parse_listing(html_text)
     except (ValueError, _http.SozcuError) as e:
         return _err(e)
-    return json.dumps(
-        {
+    return _ok({
             "category": category,
             "count": min(limit, len(rows)),
             "headlines": rows[:limit],
-        },
-        ensure_ascii=False,
-    )
+        })
 
 
 @mcp.tool()
@@ -110,10 +124,7 @@ def sozcu_latest(limit: int = 10, date: str | None = None) -> str:
             page += 1
     except (ValueError, _http.SozcuError) as e:
         return _err(e)
-    return json.dumps(
-        {"date": day, "count": min(limit, len(rows)), "articles": rows[:limit]},
-        ensure_ascii=False,
-    )
+    return _ok({"date": day, "count": min(limit, len(rows)), "articles": rows[:limit]})
 
 
 @mcp.tool()
@@ -130,7 +141,7 @@ def sozcu_get_article(article_url: str) -> str:
         data = _N.parse_article(html_text)
     except (ValueError, _http.SozcuError) as e:
         return _err(e)
-    return json.dumps(data, ensure_ascii=False)
+    return _ok(data)
 
 
 @mcp.tool()
@@ -171,11 +182,8 @@ def sozcu_search_news(query: str, limit: int = 10) -> str:
                     rows.append(r)
     except (ValueError, _http.SozcuError) as e:
         return _err(e)
-    return json.dumps(
-        {"query": query.strip(), "date": day,
-         "count": min(limit, len(rows)), "articles": rows[:limit]},
-        ensure_ascii=False,
-    )
+    return _ok({"query": query.strip(), "date": day,
+         "count": min(limit, len(rows)), "articles": rows[:limit]})
 
 
 @mcp.tool()
@@ -191,7 +199,17 @@ def sozcu_market_rates() -> str:
             raise ValueError("no market ticker found on the homepage")
     except (ValueError, _http.SozcuError) as e:
         return _err(e)
-    return json.dumps({"rates": rows}, ensure_ascii=False)
+    return _ok({"rates": rows})
+
+
+@mcp.tool()
+def sozcu_health() -> str:
+    """Check whether sozcu.com.tr is reachable right now.
+
+    Returns status ok (HTTP 200), blocked (HTTP 403/429 — bot wall or
+    rate limit) or error, plus the HTTP status and the probed URL.
+    One polite request; it does not fetch any listings."""
+    return _ok(_http.health_check())
 
 
 def main() -> None:
